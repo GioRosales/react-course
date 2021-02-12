@@ -1,19 +1,39 @@
-import React from 'react';
-// En teoría podría quedar "TarjetaFruta" solo, ya que los módulos de ES
-// al encontrar la carpeta (y no el archivo js indicado en la importación)
-// buscan el archivo "index.js" dentro de esa carpeta (en este caso TarjetaFruta)
-// pero parece que conmigo (al menos con la versión 14 de node) no funciona
-// import TarjetaFruta from './components/TarjetaFruta';
-import TarjetaFruta from './components/TarjetaFruta/index';
+import React, { Component } from 'react';
 
-const App = () => {
-  return (
-    <div>
-      <TarjetaFruta name="Sandía" price="5"/>
-      <TarjetaFruta name="Naranja" price="50"/>
-      <TarjetaFruta name="Uva" price="45"/>
-    </div>
-  )
-};
+class Entrada extends Component {
+  entrada = React.createRef()
+
+  componentDidMount() {
+    this.focus();
+  }
+
+  focus = () => {
+    this.entrada.current.focus();
+  }
+  blur  = () => {
+    this.entrada.current.blur();
+  }
+
+  render() {
+    return (
+      <div>
+        <input type="text" ref={this.entrada} />
+        <button onClick={this.focus}>Focus</button>
+        <button onClick={this.blur}>Blur</button>
+      </div>
+    )
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <h1>React refs</h1>
+        <Entrada />
+      </div>
+    )
+  }
+}
 
 export default App;
