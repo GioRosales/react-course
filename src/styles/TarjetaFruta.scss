@@ -1,0 +1,22 @@
+.card {
+  border: 2px solid cornflowerblue;
+  border-radius: 0.5rem;
+  padding: 1em;
+  background-color: white;
+  color: black;
+  transition: ease 0.2s;
+  margin-bottom: 1rem;
+  max-width: 33vw;
+  
+  &.positive {
+    background-color: teal;
+    color: white;
+    transition: ease 0.2s;
+  }
+
+  &.negative {
+    background-color: coral;
+    color: white;
+    transition: ease 0.2s;
+  }
+}
