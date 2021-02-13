@@ -12,6 +12,8 @@ class InputControlled extends Component {
     const valid = text.trim() !== '' && text.trim().length > 5
 
     this.setState({text, valid});
+
+    this.props.onChange(text, this.props.name)
   }
 
   render() {
@@ -21,18 +23,29 @@ class InputControlled extends Component {
       outline: 'none'
     }
     return (
-      <input type="text" value={this.state.text} onChange={this.setText} style={styles}/>
+      <input type="text" value={this.state.text} onChange={this.setText} style={styles} placeholder={this.props.placeholder}/>
     )
   }
 }
 
 class App extends Component {
+  state = {
+    name: '',
+    email: ''
+  }
+  actualizar = (text, item) => {
+    console.log(text, item);
+    this.setState({[item]: text});
+  }
 
   render() {
     return (
       <div>
         <h1>Inputs controlados</h1>
-        <InputControlled />
+        <InputControlled onChange={this.actualizar} name='name' placeholder="Nombre completo"/>
+        <InputControlled onChange={this.actualizar} name='email' placeholder="Correo electrónico"/>
+        <h2>Nombre: {this.state.name}</h2>
+        <h2>Correo: {this.state.email}</h2>
       </div>
     )
   }
