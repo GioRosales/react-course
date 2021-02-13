@@ -1,51 +1,38 @@
 import React, { Component } from 'react';
 
-const Unicorn = () => (
-  <span role='img' aria-label='unicornio'>
-    🦄 holis
-  </span>
-)
+class InputControlled extends Component {
+  state = {
+    text: '',
+    valid: false
+  }
 
-class InputNoControlado extends Component {
+  setText = (e) => {
+    const text = e.target.value;
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+    const valid = text.trim() !== '' && text.trim().length > 5
 
-    const nombre  = e.target[0].value;
-    const email   = e.target[1].value;
-
-
-    this.props.onSend({nombre, email})
+    this.setState({text, valid});
   }
 
   render() {
+    const styles = {
+      border: `1px solid ${this.state.valid ? "green" : "red"}`,
+      padding: '0.5rem',
+      outline: 'none'
+    }
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input 
-        type="text"
-        placeholder="Nombre" />
-        <input 
-        type="text"
-        placeholder="Email" />
-        <input type="submit"/>
-      </form>
+      <input type="text" value={this.state.text} onChange={this.setText} style={styles}/>
     )
   }
 }
 
 class App extends Component {
 
-  send = (data) => {
-    console.log(`${data.nombre}, ${data.email}`)
-  }
-
   render() {
     return (
       <div>
-        <h1>Inputs no controlados Refs <Unicorn /></h1>
-        <InputNoControlado 
-          onSend={this.send}
-        />
+        <h1>Inputs controlados</h1>
+        <InputControlled />
       </div>
     )
   }
