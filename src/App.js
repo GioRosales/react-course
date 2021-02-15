@@ -52,6 +52,10 @@ class Nieto extends Component {
     });
   }
 
+  componentWillUnmount() {
+    PubSub.unsubscribe('other event');
+  }
+
   render() {
     const {title} = this.state;
     return(
