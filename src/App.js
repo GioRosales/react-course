@@ -1,11 +1,16 @@
 import React, {Fragment, Component} from 'react';
 
+const mainBox = {
+  border: "2px dashed gray",
+  padding: '1rem',
+  maxWidth: '50vw',
+};
+
 const Header = () => {
   const boxStyle = {
     border: '2px solid lightgray',
     borderRadius: '0.5rem',
     color: "teal",
-    maxWidth: '50vw',
     textAlign: 'center',
     fontFamily: 'sans',
     marginBottom: '2rem'
@@ -14,8 +19,8 @@ const Header = () => {
     fontWeight: 'bold',
     display: 'block'
   };
-
-
+  
+  
   return (
     <div style={boxStyle}>
       <p>Comunicación entre componentes <span style={spanStyle} >Métodos de instancia</span></p>
@@ -24,42 +29,35 @@ const Header = () => {
 }
 
 class Hijo extends Component {
-  state = {
-    message: '****'
+  handleClick = (e) => {
+    e.stopPropagation();
+    console.log("click en <Hijo />");
   }
-
-  dispatchAlert = (e, message = "Alerta desde el hijo") => {
-    alert(message)
-    this.setState({
-      message
-    })
-  }
-
-  render() {
+  render(){
     return(
-      <>
-        <h2>Mensaje: {this.state.message}</h2>
-        <button onClick={this.dispatchAlert}>Hijo</button>
-      </>
+      <div 
+        style={mainBox}
+        onClick={this.handleClick}
+      >
+        <p>Hijo</p>
+      </div>
     )
   }
 }
 
 class App extends Component {
-hijo = React.createRef()
-
-handleClick = () => {
-  console.log(this.hijo);
-  this.hijo.current.dispatchAlert(null, "Mensaje desde el padre")
-}
-
-render(){
+  handleClick = () => {
+    console.log('Click en <Padre />');
+  }
+  render(){
   return(
-    <>
+    <div 
+      style={mainBox}
+      onClick={this.handleClick}
+    >
       <Header />
-      <Hijo ref={this.hijo}/>
-      <button onClick={this.handleClick}>Padre</button>
-    </>
+      <Hijo />
+    </div>
   )
 }
 };
