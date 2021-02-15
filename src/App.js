@@ -6,6 +6,16 @@ const mainBox = {
   maxWidth: '50vw',
 };
 
+const blueBox = {
+  ...mainBox,
+  border: '2px solid blue'
+};
+
+const redBox = {
+  ...mainBox,
+  border: '2px solid red'
+};
+
 const Header = () => {
   const boxStyle = {
     border: '2px solid lightgray',
@@ -28,38 +38,67 @@ const Header = () => {
   )
 }
 
-class Hijo extends Component {
-  handleClick = (e) => {
-    e.stopPropagation();
-    console.log("click en <Hijo />");
-  }
+class ComponentA extends Component {
   render(){
+    const { num } = this.props
     return(
-      <div 
-        style={mainBox}
-        onClick={this.handleClick}
-      >
-        <p>Hijo</p>
+      <div style={blueBox}>
+        <p>Some text</p>
+        <button onClick={this.props.onAdd}>
+          Component A ( {num} )
+        </button>
+      </div>
+    )
+  }
+}
+
+class ComponentB extends Component {
+  render(){
+    const { num } = this.props
+    return(
+      <div style={redBox}>
+        <p>Some text</p>
+        <button onClick={this.props.onAdd}>
+          Component B ( {num} )
+        </button>
       </div>
     )
   }
 }
 
 class App extends Component {
-  handleClick = () => {
-    console.log('Click en <Padre />');
+  state = {
+    countA: 0,
+    countB: 0
   }
+  onAdd = () => {
+
+  }
+
+  handleAddA = () => {
+    this.setState(state => ({
+      countA: state.countA + 1
+    }));
+  }
+
+  handleAddB = () => {
+    this.setState(state => ({
+      countB: state.countB + 2
+    }));
+  }
+
   render(){
-  return(
-    <div 
-      style={mainBox}
-      onClick={this.handleClick}
-    >
-      <Header />
-      <Hijo />
-    </div>
-  )
-}
+    const {countA, countB} = this.state;
+    return(
+      <div 
+        style={mainBox}
+      >
+        <Header />
+        <ComponentA num={countA} onAdd={this.handleAddB}/>
+        <ComponentB num={countB} onAdd={this.handleAddA}/>
+      </div>
+    )
+  }
 };
 
 export default App;
