@@ -1,19 +1,67 @@
-import React from 'react';
-// En teoría podría quedar "TarjetaFruta" solo, ya que los módulos de ES
-// al encontrar la carpeta (y no el archivo js indicado en la importación)
-// buscan el archivo "index.js" dentro de esa carpeta (en este caso TarjetaFruta)
-// pero parece que conmigo (al menos con la versión 14 de node) no funciona
-// import TarjetaFruta from './components/TarjetaFruta';
-import TarjetaFruta from './components/TarjetaFruta/index';
+import React, {Fragment, Component} from 'react';
 
-const App = () => {
+const Header = () => {
+  const boxStyle = {
+    border: '2px solid lightgray',
+    borderRadius: '0.5rem',
+    color: "teal",
+    maxWidth: '50vw',
+    textAlign: 'center',
+    fontFamily: 'sans',
+    marginBottom: '2rem'
+  };
+  const spanStyle = {
+    fontWeight: 'bold',
+    display: 'block'
+  };
+
+
   return (
-    <div>
-      <TarjetaFruta name="Sandía" price="5"/>
-      <TarjetaFruta name="Naranja" price="50"/>
-      <TarjetaFruta name="Uva" price="45"/>
+    <div style={boxStyle}>
+      <p>Comunicación entre componentes <span style={spanStyle} >Métodos de instancia</span></p>
     </div>
   )
+}
+
+class Hijo extends Component {
+  state = {
+    message: '****'
+  }
+
+  dispatchAlert = (e, message = "Alerta desde el hijo") => {
+    alert(message)
+    this.setState({
+      message
+    })
+  }
+
+  render() {
+    return(
+      <>
+        <h2>Mensaje: {this.state.message}</h2>
+        <button onClick={this.dispatchAlert}>Hijo</button>
+      </>
+    )
+  }
+}
+
+class App extends Component {
+hijo = React.createRef()
+
+handleClick = () => {
+  console.log(this.hijo);
+  this.hijo.current.dispatchAlert(null, "Mensaje desde el padre")
+}
+
+render(){
+  return(
+    <>
+      <Header />
+      <Hijo ref={this.hijo}/>
+      <button onClick={this.handleClick}>Padre</button>
+    </>
+  )
+}
 };
 
 export default App;
